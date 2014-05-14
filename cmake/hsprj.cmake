@@ -41,13 +41,18 @@ macro(build_lib lib_name)
     if(var_lib STREQUAL "HEADONLY")
       set(HEADONLY ON)
       list(REMOVE_AT SRC_FILES 0)
+    elseif(var_lib STREQUAL "3RDPARTY")
+      set(3RDPARTY ON)
+      list(REMOVE_AT SRC_FILES 0)
     endif()
   endforeach()
 
 	prjenv()
-	#config header.
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/config/hs_config.hpp.in"
+  if(NOT 3RDPARTY)
+    #config header.
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/config/hs_config.hpp.in"
                  "${CMAKE_CURRENT_BINARY_DIR}/inc/config/hs_config.hpp")
+  elseif()
 	
 	include_directories(inc)
 	include_directories("${CMAKE_CURRENT_BINARY_DIR}/inc")

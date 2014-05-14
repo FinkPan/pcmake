@@ -3,7 +3,8 @@ build_lib 用法:
 build_lib(lib_name lib_files...)
 对与HEADONLY项目加关键字HEADONLY
 build_lib(lib_name HEADONLY lib_files...)
-
+对与3RDPARTY项目加关键字3RDPARTY
+build_lib(lib_name 3RDPARTY lib_files...)
 
 install_lib 用法:
 
