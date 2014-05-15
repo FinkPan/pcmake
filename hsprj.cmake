@@ -36,6 +36,11 @@ endmacro()
 
 #usage: build_lib(lib_name lib_files1 lib_files2...)
 macro(build_lib lib_name)
+	prjenv()
+  if(${lib_name} STREQUAL "glew" AND NOT BUILD_SHARED_LIBS)
+      add_definitions(-DGLEW_STATIC)
+  endif()
+  
   set(SRC_FILES "${ARGN}")
   foreach(var_lib ${SRC_FILES})
     if(var_lib STREQUAL "HEADONLY")
@@ -47,7 +52,6 @@ macro(build_lib lib_name)
     endif()
   endforeach()
 
-	prjenv()
   if(NOT 3RDPARTY)
     #config header.
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/config/hs_config.hpp.in"
@@ -73,6 +77,11 @@ macro(lib_dep target dep_lib_name)
   set(DEP_LIB_DIR "${HSLIB_DIR}/${LINK_TYPE}/${GENERATOR_TYPE}/${dep_lib_name}/lib/$<CONFIGURATION>")
   set(DEP_DLL_DIR "${HSLIB_DIR}/${LINK_TYPE}/${GENERATOR_TYPE}/${dep_lib_name}/bin/$<CONFIGURATION>")
 
+  
+  if(${dep_lib_name} STREQUAL "glew" AND NOT BUILD_SHARED_LIBS)
+      add_definitions(-DGLEW_STATIC)
+  endif()
+  
   #判断是否有多个libs
   foreach(var_lib ${ARGN})
     if(var_lib STREQUAL "DEP")
